@@ -3,6 +3,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { apiErrorMessage } from '../api/client';
 import { forgotPassword } from '../api/resources';
+import { PasswordField } from '../components/PasswordField';
 
 export function LoginPage() {
   const { user, login } = useAuth();
@@ -57,7 +58,7 @@ export function LoginPage() {
             </label>
             <label>
               Mot de passe
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+              <PasswordField value={password} onChange={(e) => setPassword(e.target.value)} required />
             </label>
             {error && <div className="form-error">{error}</div>}
             <button type="submit" className="btn-primary" disabled={submitting}>

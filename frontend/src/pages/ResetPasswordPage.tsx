@@ -1,6 +1,7 @@
 import { FormEvent, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { api, apiErrorMessage } from '../api/client';
+import { PasswordField } from '../components/PasswordField';
 
 export function ResetPasswordPage() {
   const [params] = useSearchParams();
@@ -32,8 +33,7 @@ export function ResetPasswordPage() {
           <form onSubmit={handleSubmit} className="form">
             <label>
               Nouveau mot de passe
-              <input
-                type="password"
+              <PasswordField
                 minLength={8}
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}

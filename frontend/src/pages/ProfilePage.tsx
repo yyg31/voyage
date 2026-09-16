@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { changePassword } from '../api/resources';
 import { apiErrorMessage } from '../api/client';
 import { Tag } from '../components/Tag';
+import { PasswordField } from '../components/PasswordField';
 
 export function ProfilePage() {
   const { user } = useAuth();
@@ -47,11 +48,11 @@ export function ProfilePage() {
       <form className="form card" onSubmit={handleSubmit}>
         <label>
           Mot de passe actuel
-          <input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} required />
+          <PasswordField value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} required />
         </label>
         <label>
           Nouveau mot de passe
-          <input type="password" minLength={8} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required />
+          <PasswordField minLength={8} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required />
         </label>
         {error && <div className="form-error">{error}</div>}
         {success && <div className="form-info">Mot de passe mis à jour.</div>}

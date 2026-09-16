@@ -4,6 +4,7 @@ import { createUser, deleteUser, fetchFamilies, fetchUsers } from '../api/resour
 import { Tag } from '../components/Tag';
 import { apiErrorMessage } from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { PasswordField } from '../components/PasswordField';
 
 export function AdminUsersPage() {
   const { user: currentUser } = useAuth();
@@ -72,7 +73,7 @@ export function AdminUsersPage() {
             </label>
             <label>
               Mot de passe initial
-              <input type="password" name="password" minLength={8} required />
+              <PasswordField name="password" minLength={8} required />
             </label>
             <label>
               Famille

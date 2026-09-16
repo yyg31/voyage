@@ -194,6 +194,31 @@ a:hover {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 12px;
 }
+.password-field {
+  position: relative;
+  display: flex;
+}
+.password-field input {
+  width: 100%;
+  padding-right: 40px;
+}
+.password-field-toggle {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+.password-field-toggle:hover {
+  color: var(--color-text);
+}
 .form-error {
   color: var(--color-danger);
   font-size: 0.88rem;
