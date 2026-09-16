@@ -10,6 +10,7 @@ import { FlightsPage } from './pages/FlightsPage';
 import { LinksPage } from './pages/LinksPage';
 import { ForumPage } from './pages/ForumPage';
 import { ForumThreadPage } from './pages/ForumThreadPage';
+import { PhrasebookPage } from './pages/PhrasebookPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { AdminUsersPage } from './pages/AdminUsersPage';
 
@@ -30,6 +31,7 @@ export default function App() {
             <Route path="/links" element={<LinksPage />} />
             <Route path="/forum" element={<ForumPage />} />
             <Route path="/forum/:threadId" element={<ForumThreadPage />} />
+            <Route path="/phrasebook" element={<PhrasebookPage />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Route>
 

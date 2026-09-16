@@ -508,6 +508,33 @@ a:hover {
   gap: 12px;
 }
 
+/* Phrasebook */
+.phrase-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+  margin: 12px 0 24px;
+}
+.phrase-card {
+  border-top: 4px solid;
+  text-align: center;
+}
+.phrase-english {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+.phrase-local {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 6px 0 2px;
+  font-family: 'Noto Sans Khmer', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+.phrase-phonetic {
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
 /* Forum */
 .thread-list {
   display: flex;

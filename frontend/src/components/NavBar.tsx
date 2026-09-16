@@ -9,6 +9,7 @@ const links = [
   { to: '/flights', label: 'Flights & transport' },
   { to: '/links', label: 'Links & hotels' },
   { to: '/forum', label: 'Forum' },
+  { to: '/phrasebook', label: 'Phrasebook' },
 ];
 
 export function NavBar() {
