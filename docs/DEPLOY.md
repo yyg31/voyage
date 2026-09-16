@@ -64,6 +64,15 @@ git pull
 automatiquement les migrations en attente au démarrage du backend
 (`prisma migrate deploy`, voir `backend/Dockerfile`).
 
+**VPS avec plusieurs projets** : les ports hôte (`3003` frontend, `4000`
+backend, `5432` db) sont configurables dans `.env`
+(`HOST_FRONTEND_PORT`/`HOST_BACKEND_PORT`/`HOST_DB_PORT`). Si l'un d'eux
+est déjà pris par un autre site, vérifie avec
+`sudo ss -tlnp | grep -E ':5432|:4000|:3003'`, change la valeur dans
+`.env`, relance `./deploy/deploy.sh`, et mets à jour le port
+correspondant dans `/Caddyfile` (bloc `handle { reverse_proxy
+127.0.0.1:<port> }`).
+
 ## 4. Brancher Caddy (une fois)
 
 Le `Caddyfile` du repo (`/opt/asia26/Caddyfile`) définit le bloc du site

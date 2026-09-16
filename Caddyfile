@@ -29,8 +29,10 @@ asia26.ygouf.com {
 	}
 
 	# Everything else: the React static build
+	# (matches docker-compose.yml's default HOST_FRONTEND_PORT; update both
+	# if you changed it in .env because 3003 was also taken)
 	handle {
-		reverse_proxy 127.0.0.1:3000
+		reverse_proxy 127.0.0.1:3003
 	}
 
 	header {

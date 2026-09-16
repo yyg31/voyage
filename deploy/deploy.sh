@@ -25,9 +25,12 @@ docker compose build
 echo "==> Starting the stack (db, backend, frontend)..."
 docker compose up -d
 
+BACKEND_PORT="$(grep -E '^HOST_BACKEND_PORT=' .env | cut -d= -f2)"
+BACKEND_PORT="${BACKEND_PORT:-4000}"
+
 echo "==> Waiting for the API to become healthy..."
 for i in $(seq 1 30); do
-  if curl -fsS http://127.0.0.1:4000/health >/dev/null 2>&1; then
+  if curl -fsS "http://127.0.0.1:${BACKEND_PORT}/health" >/dev/null 2>&1; then
     echo "Backend is up."
     break
   fi

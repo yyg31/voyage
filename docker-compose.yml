@@ -9,7 +9,7 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     ports:
-      - '127.0.0.1:5432:5432' # remove/restrict in production; local-only for admin access
+      - '127.0.0.1:${HOST_DB_PORT:-5432}:5432' # remove/restrict in production; local-only for admin access
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-asia26}']
       interval: 5s
@@ -34,7 +34,7 @@ services:
     volumes:
       - backend_uploads:/app/uploads
     ports:
-      - '127.0.0.1:4000:4000' # Caddy (on the host) proxies to this port; not exposed publicly
+      - '127.0.0.1:${HOST_BACKEND_PORT:-4000}:4000' # Caddy (on the host) proxies to this port; not exposed publicly
 
   frontend:
     build: ./frontend
@@ -42,7 +42,7 @@ services:
     depends_on:
       - backend
     ports:
-      - '127.0.0.1:3000:80' # Caddy (on the host) proxies to this port; not exposed publicly
+      - '127.0.0.1:${HOST_FRONTEND_PORT:-3003}:80' # Caddy (on the host) proxies to this port; not exposed publicly
 
 volumes:
   db_data:
