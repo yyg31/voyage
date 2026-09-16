@@ -8,6 +8,7 @@ Voir `docs/` pour le détail :
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — architecture, choix techniques
 - [`docs/DATA_MODEL.md`](docs/DATA_MODEL.md) — modèle de données
 - [`docs/API.md`](docs/API.md) — endpoints de l'API REST
+- [`docs/DEPLOY.md`](docs/DEPLOY.md) — déploiement pas à pas sur le VPS
 
 ## Stack
 
@@ -48,15 +49,18 @@ Comptes de démo créés par `npm run seed` (mot de passe par défaut défini pa
 
 ## Déploiement (production)
 
+Voir [`docs/DEPLOY.md`](docs/DEPLOY.md) pour le runbook détaillé (VPS avec
+Docker + Caddy déjà installés). En résumé, sur le VPS :
+
 ```bash
-cp .env.example .env   # définir POSTGRES_PASSWORD, JWT_SECRET, CORS_ORIGIN
-docker compose up -d --build
-docker compose exec backend npm run seed   # une fois, pour les données de démo (optionnel)
+git clone https://github.com/yyg31/voyage.git /opt/asia26 && cd /opt/asia26
+./deploy/generate-env.sh   # génère .env avec des secrets aléatoires
+./deploy/deploy.sh --seed  # build + démarre le stack, charge les données de démo (1ère fois)
 ```
 
-Puis, **sur l'hôte** (hors Docker), installer `/Caddyfile` (voir son
-en-tête pour les instructions) afin de servir `https://asia26.ygouf.com`
-et router vers les containers `frontend`/`backend` qui n'écoutent que sur
+Puis, **sur l'hôte** (hors Docker), brancher `/Caddyfile` (voir
+`docs/DEPLOY.md` §4) afin de servir `https://asia26.ygouf.com` et router
+vers les containers `frontend`/`backend` qui n'écoutent que sur
 `127.0.0.1`.
 
 ## Fonctionnalités
