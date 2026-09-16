@@ -34,12 +34,12 @@ export function ForumThreadPage() {
     }
   }
 
-  if (isLoading) return <p className="page">Chargement…</p>;
-  if (!thread) return <p className="page">Sujet introuvable.</p>;
+  if (isLoading) return <p className="page">Loading…</p>;
+  if (!thread) return <p className="page">Thread not found.</p>;
 
   return (
     <div className="page">
-      <Link to="/forum">← Retour au forum</Link>
+      <Link to="/forum">← Back to forum</Link>
       <h1>{thread.title}</h1>
       <p className="muted">{thread.category.name}</p>
 
@@ -59,12 +59,12 @@ export function ForumThreadPage() {
 
       <form className="form" onSubmit={handleSubmit}>
         <label>
-          Répondre
+          Reply
           <textarea value={content} onChange={(e) => setContent(e.target.value)} rows={3} required />
         </label>
         {error && <div className="form-error">{error}</div>}
         <button type="submit" className="btn-primary" disabled={postMutation.isPending}>
-          Envoyer
+          Send
         </button>
       </form>
     </div>

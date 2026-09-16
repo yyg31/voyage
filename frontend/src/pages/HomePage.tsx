@@ -25,20 +25,20 @@ export function HomePage() {
   return (
     <div className="page">
       <section className="hero">
-        <h1>Bienvenue {user?.firstName} 👋</h1>
+        <h1>Welcome {user?.firstName} 👋</h1>
         <p className="hero-subtitle">
-          Voyage en Asie des familles <strong>Back</strong> &amp; <strong>Ygouf</strong> — du{' '}
-          {formatDate(TRIP_START)} au {formatDate(TRIP_END)}
+          <strong>Back</strong> &amp; <strong>Ygouf</strong> family trip to Asia — {formatDate(TRIP_START)} to{' '}
+          {formatDate(TRIP_END)}
         </p>
         {daysToGo > 0 ? (
-          <div className="hero-countdown">J-{daysToGo} avant le départ !</div>
+          <div className="hero-countdown">{daysToGo} days to go!</div>
         ) : (
-          <div className="hero-countdown">Le voyage est en cours ou terminé 🎒</div>
+          <div className="hero-countdown">The trip is underway or over 🎒</div>
         )}
       </section>
 
       <section>
-        <h2>Les escales</h2>
+        <h2>Stopovers</h2>
         <div className="stopover-grid">
           {stopovers.map((s) => (
             <Link to={`/stopovers#${s.id}`} key={s.id} className="card stopover-card" style={{ borderTopColor: s.colorHex }}>
@@ -59,10 +59,10 @@ export function HomePage() {
 
       <section>
         <div className="section-header">
-          <h2>Prochaines activités</h2>
-          <Link to="/agenda">Voir l'agenda complet →</Link>
+          <h2>Upcoming activities</h2>
+          <Link to="/agenda">View full agenda →</Link>
         </div>
-        {upcoming.length === 0 && <p className="muted">Aucune activité à venir pour le moment.</p>}
+        {upcoming.length === 0 && <p className="muted">No upcoming activities yet.</p>}
         <ul className="upcoming-list">
           {upcoming.map((a) => (
             <li key={a.id}>

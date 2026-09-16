@@ -10,8 +10,8 @@ export function StopoversPage() {
 
   return (
     <div className="page">
-      <h1>Les escales</h1>
-      {isLoading && <p>Chargement…</p>}
+      <h1>Stopovers</h1>
+      {isLoading && <p>Loading…</p>}
       <div className="stopover-list">
         {stopovers.map((s) => {
           const stopoverLinks = links.filter((l) => l.stopoverId === s.id);
@@ -21,7 +21,7 @@ export function StopoversPage() {
                 <h2>
                   {s.name} <span className="muted">· {s.country}</span>
                 </h2>
-                <Link to={`/agenda?stopoverId=${s.id}`}>Voir l'agenda →</Link>
+                <Link to={`/agenda?stopoverId=${s.id}`}>View agenda →</Link>
               </div>
               <p className="muted">
                 {formatDate(s.startDate)} → {formatDate(s.endDate)}
@@ -32,9 +32,9 @@ export function StopoversPage() {
                 ))}
               </div>
 
-              <h3>Liens &amp; ressources</h3>
+              <h3>Links &amp; resources</h3>
               {stopoverLinks.length === 0 ? (
-                <p className="muted">Aucun lien pour cette escale.</p>
+                <p className="muted">No links for this stopover.</p>
               ) : (
                 <ul className="link-list">
                   {stopoverLinks.map((l) => (

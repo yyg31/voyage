@@ -140,7 +140,7 @@ async function main() {
   const phnomPenh = await prisma.stopover.create({
     data: {
       name: 'Phnom Penh',
-      country: 'Cambodge',
+      country: 'Cambodia',
       colorHex: '#16a34a',
       orderIndex: 1,
       startDate: day('2026-12-25'),
@@ -187,8 +187,8 @@ async function main() {
 
   const singapore = await prisma.stopover.create({
     data: {
-      name: 'Singapour',
-      country: 'Singapour',
+      name: 'Singapore',
+      country: 'Singapore',
       colorHex: '#e11d48',
       orderIndex: 4,
       startDate: day('2027-01-04'),
@@ -204,8 +204,8 @@ async function main() {
 
   const beijing = await prisma.stopover.create({
     data: {
-      name: 'Pékin',
-      country: 'Chine',
+      name: 'Beijing',
+      country: 'China',
       colorHex: '#7c3aed',
       orderIndex: 5,
       startDate: day('2027-01-08'),
@@ -222,7 +222,7 @@ async function main() {
   async function createFlight({ airline, flightNumber, from, to, dep, arr, participants }) {
     const activity = await prisma.activity.create({
       data: {
-        title: `Vol ${airline} ${flightNumber}`,
+        title: `Flight ${airline} ${flightNumber}`,
         description: `${from} -> ${to}`,
         type: 'FLIGHT',
         location: from,
@@ -268,7 +268,7 @@ async function main() {
   await createFlight({
     airline: 'Singapore Airlines',
     flightNumber: 'SQ 176',
-    from: 'Singapour',
+    from: 'Singapore',
     to: 'Paris CDG',
     dep: '2027-01-08T00:35:00Z',
     arr: '2027-01-08T07:15:00Z',
@@ -281,7 +281,7 @@ async function main() {
     data: [
       {
         stopoverId: phnomPenh.id,
-        title: 'Visite du Palais Royal',
+        title: 'Royal Palace visit',
         type: 'VISIT',
         location: 'Phnom Penh',
         startDateTime: day('2026-12-26T02:00:00Z'),
@@ -289,7 +289,7 @@ async function main() {
       },
       {
         stopoverId: phnomPenh.id,
-        title: 'Dîner au bord du Tonlé Sap',
+        title: 'Dinner by the Tonle Sap',
         type: 'RESTAURANT',
         location: 'Phnom Penh',
         startDateTime: day('2026-12-26T11:00:00Z'),
@@ -297,7 +297,7 @@ async function main() {
       },
       {
         stopoverId: hoChiMinh.id,
-        title: 'Tour des tunnels de Cu Chi',
+        title: 'Cu Chi tunnels tour',
         type: 'EXCURSION',
         location: 'Ho Chi Minh',
         startDateTime: day('2026-12-29T01:00:00Z'),
@@ -305,7 +305,7 @@ async function main() {
       },
       {
         stopoverId: conDao.id,
-        title: 'Snorkeling & plage de Dam Trau',
+        title: 'Snorkeling & Dam Trau beach',
         type: 'EXCURSION',
         location: 'Con Dao',
         startDateTime: day('2027-01-01T02:00:00Z'),
@@ -315,15 +315,15 @@ async function main() {
         stopoverId: singapore.id,
         title: 'Gardens by the Bay',
         type: 'VISIT',
-        location: 'Singapour',
+        location: 'Singapore',
         startDateTime: day('2027-01-05T10:00:00Z'),
         endDateTime: day('2027-01-05T13:00:00Z'),
       },
       {
         stopoverId: beijing.id,
-        title: 'La Grande Muraille - Mutianyu',
+        title: 'Great Wall - Mutianyu',
         type: 'EXCURSION',
-        location: 'Pékin',
+        location: 'Beijing',
         startDateTime: day('2027-01-09T01:00:00Z'),
         endDateTime: day('2027-01-09T08:00:00Z'),
       },
@@ -335,7 +335,7 @@ async function main() {
   await prisma.link.createMany({
     data: [
       {
-        title: 'Hôtel Raffles Le Royal (Phnom Penh)',
+        title: 'Raffles Le Royal Hotel (Phnom Penh)',
         url: 'https://www.booking.com/hotel/kh/raffles-le-royal.html',
         type: 'HOTEL',
         stopoverId: phnomPenh.id,
@@ -344,7 +344,7 @@ async function main() {
         createdById: yann.id,
       },
       {
-        title: 'Hôtel Ho Chi Minh (Booking)',
+        title: 'Ho Chi Minh Hotel (Booking)',
         url: 'https://www.booking.com/searchresults.html?ss=Ho+Chi+Minh+City',
         type: 'HOTEL',
         stopoverId: hoChiMinh.id,
@@ -360,7 +360,7 @@ async function main() {
         createdById: marie.id,
       },
       {
-        title: 'Marina Bay Sands (Singapour)',
+        title: 'Marina Bay Sands (Singapore)',
         url: 'https://www.marinabaysands.com/',
         type: 'HOTEL',
         stopoverId: singapore.id,
@@ -368,7 +368,7 @@ async function main() {
         createdById: claire.id,
       },
       {
-        title: 'Guide Grande Muraille Mutianyu',
+        title: 'Mutianyu Great Wall Guide',
         url: 'https://www.mutianyugreatwall.com/',
         type: 'INFO',
         stopoverId: beijing.id,
@@ -381,27 +381,27 @@ async function main() {
 
   console.log('Created demo links.');
 
-  const [general, logistique, idees, restos] = await Promise.all([
-    prisma.forumCategory.create({ data: { name: 'Général', orderIndex: 1 } }),
-    prisma.forumCategory.create({ data: { name: 'Logistique', orderIndex: 2 } }),
-    prisma.forumCategory.create({ data: { name: 'Idées de visites', orderIndex: 3 } }),
+  const [general, logistics, ideas, restaurants] = await Promise.all([
+    prisma.forumCategory.create({ data: { name: 'General', orderIndex: 1 } }),
+    prisma.forumCategory.create({ data: { name: 'Logistics', orderIndex: 2 } }),
+    prisma.forumCategory.create({ data: { name: 'Sightseeing ideas', orderIndex: 3 } }),
     prisma.forumCategory.create({ data: { name: 'Restaurants', orderIndex: 4 } }),
   ]);
 
   await prisma.forumThread.create({
     data: {
       categoryId: general.id,
-      title: 'Bienvenue sur asia26 !',
+      title: 'Welcome to asia26!',
       authorId: yann.id,
       messages: {
         create: [
           {
             authorId: yann.id,
-            content: "Bienvenue sur le site du voyage Asie 2026-2027 ! Ajoutez vos idées d'activités et restos ici.",
+            content: 'Welcome to the 2026-2027 Asia trip site! Add your activity and restaurant ideas here.',
           },
           {
             authorId: pierre.id,
-            content: 'Hâte de découvrir Pékin avec vous tous, à bientôt sur place !',
+            content: "Can't wait to see Beijing with all of you, see you there soon!",
           },
         ],
       },
@@ -410,21 +410,21 @@ async function main() {
 
   await prisma.forumThread.create({
     data: {
-      categoryId: logistique.id,
-      title: 'Valises et affaires à ne pas oublier',
+      categoryId: logistics.id,
+      title: "Packing list — don't forget",
       authorId: marie.id,
       messages: {
         create: [
           {
             authorId: marie.id,
-            content: "Pensez à l'adaptateur électrique universel et à la crème anti-moustique.",
+            content: 'Remember the universal power adapter and mosquito repellent.',
           },
         ],
       },
     },
   });
 
-  console.log(`Created forum categories (${[general, logistique, idees, restos].length}) and starter threads.`);
+  console.log(`Created forum categories (${[general, logistics, ideas, restaurants].length}) and starter threads.`);
 
   console.log('\nSeed complete.');
   console.log(`All demo accounts use the password: ${DEFAULT_PASSWORD}`);

@@ -17,22 +17,22 @@ export function ResetPasswordPage() {
       await api.post('/auth/reset-password', { token, newPassword });
       setDone(true);
     } catch (err) {
-      setError(apiErrorMessage(err, 'Lien invalide ou expiré'));
+      setError(apiErrorMessage(err, 'Invalid or expired link'));
     }
   }
 
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <h1>Réinitialiser le mot de passe</h1>
+        <h1>Reset password</h1>
         {done ? (
           <p>
-            Mot de passe mis à jour. <Link to="/login">Se connecter</Link>
+            Password updated. <Link to="/login">Sign in</Link>
           </p>
         ) : (
           <form onSubmit={handleSubmit} className="form">
             <label>
-              Nouveau mot de passe
+              New password
               <PasswordField
                 minLength={8}
                 value={newPassword}
@@ -42,7 +42,7 @@ export function ResetPasswordPage() {
             </label>
             {error && <div className="form-error">{error}</div>}
             <button type="submit" className="btn-primary">
-              Valider
+              Submit
             </button>
           </form>
         )}

@@ -57,15 +57,15 @@ export function LinksPage() {
   return (
     <div className="page">
       <div className="section-header">
-        <h1>Liens &amp; ressources</h1>
+        <h1>Links &amp; resources</h1>
         <button className="btn-primary" onClick={() => setShowForm((s) => !s)}>
-          {showForm ? 'Annuler' : '+ Ajouter un lien'}
+          {showForm ? 'Cancel' : '+ Add link'}
         </button>
       </div>
 
       <div className="filters">
         <select value={stopoverFilter} onChange={(e) => setStopoverFilter(e.target.value)}>
-          <option value="">Toutes les escales</option>
+          <option value="">All stopovers</option>
           {stopovers.map((s) => (
             <option key={s.id} value={s.id}>
               {s.name}
@@ -73,7 +73,7 @@ export function LinksPage() {
           ))}
         </select>
         <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
-          <option value="">Tous les types</option>
+          <option value="">All types</option>
           {LINK_TYPES.map((t) => (
             <option key={t} value={t}>
               {linkTypeLabel(t)}
@@ -86,7 +86,7 @@ export function LinksPage() {
         <form className="form card" onSubmit={handleCreate}>
           <div className="form-grid">
             <label>
-              Titre
+              Title
               <input name="title" required />
             </label>
             <label>
@@ -104,7 +104,7 @@ export function LinksPage() {
               </select>
             </label>
             <label>
-              Escale
+              Stopover
               <select name="stopoverId">
                 <option value="">—</option>
                 {stopovers.map((s) => (
@@ -115,22 +115,22 @@ export function LinksPage() {
               </select>
             </label>
             <label>
-              Visible par
+              Visible to
               <select name="visibility" defaultValue="BOTH">
-                <option value="BOTH">Les deux familles</option>
-                <option value="BACK">Famille Back uniquement</option>
-                <option value="YGOUF">Famille Ygouf uniquement</option>
+                <option value="BOTH">Both families</option>
+                <option value="BACK">Back family only</option>
+                <option value="YGOUF">Ygouf family only</option>
               </select>
             </label>
           </div>
           {formError && <div className="form-error">{formError}</div>}
           <button type="submit" className="btn-primary" disabled={createMutation.isPending}>
-            Enregistrer
+            Save
           </button>
         </form>
       )}
 
-      {isLoading && <p>Chargement…</p>}
+      {isLoading && <p>Loading…</p>}
 
       <div className="link-grid">
         {links.map((l) => (
@@ -143,17 +143,17 @@ export function LinksPage() {
             </div>
             <div className="tag-row">
               {l.stopover && <Tag label={l.stopover.name} outline />}
-              {l.family ? <Tag label={l.family.name} color={l.family.colorHex} /> : <Tag label="Les deux familles" outline />}
+              {l.family ? <Tag label={l.family.name} color={l.family.colorHex} /> : <Tag label="Both families" outline />}
             </div>
             <div className="muted">
-              Ajouté par {l.createdBy.firstName} {l.createdBy.lastName}
+              Added by {l.createdBy.firstName} {l.createdBy.lastName}
             </div>
             <button className="btn-link btn-danger" onClick={() => deleteMutation.mutate(l.id)}>
-              Supprimer
+              Delete
             </button>
           </div>
         ))}
-        {!isLoading && links.length === 0 && <p className="muted">Aucun lien pour ces filtres.</p>}
+        {!isLoading && links.length === 0 && <p className="muted">No links match these filters.</p>}
       </div>
     </div>
   );

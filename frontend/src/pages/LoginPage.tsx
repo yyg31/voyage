@@ -27,7 +27,7 @@ export function LoginPage() {
     try {
       await login(email, password);
     } catch (err) {
-      setError(apiErrorMessage(err, 'Email ou mot de passe incorrect'));
+      setError(apiErrorMessage(err, 'Incorrect email or password'));
     } finally {
       setSubmitting(false);
     }
@@ -48,7 +48,7 @@ export function LoginPage() {
     <div className="auth-page">
       <div className="auth-card">
         <h1>asia26 ✈️</h1>
-        <p className="auth-subtitle">Voyage Back &amp; Ygouf — Déc. 2026 / Janv. 2027</p>
+        <p className="auth-subtitle">Back &amp; Ygouf family trip — Dec. 2026 / Jan. 2027</p>
 
         {!showForgot ? (
           <form onSubmit={handleSubmit} className="form">
@@ -57,15 +57,15 @@ export function LoginPage() {
               <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoFocus />
             </label>
             <label>
-              Mot de passe
+              Password
               <PasswordField value={password} onChange={(e) => setPassword(e.target.value)} required />
             </label>
             {error && <div className="form-error">{error}</div>}
             <button type="submit" className="btn-primary" disabled={submitting}>
-              {submitting ? 'Connexion…' : 'Se connecter'}
+              {submitting ? 'Signing in…' : 'Sign in'}
             </button>
             <button type="button" className="btn-link" onClick={() => setShowForgot(true)}>
-              Mot de passe oublié ?
+              Forgot password?
             </button>
           </form>
         ) : (
@@ -77,15 +77,15 @@ export function LoginPage() {
             {error && <div className="form-error">{error}</div>}
             {info && <div className="form-info">{info}</div>}
             <button type="submit" className="btn-primary">
-              Envoyer le lien de réinitialisation
+              Send reset link
             </button>
             <button type="button" className="btn-link" onClick={() => setShowForgot(false)}>
-              Retour à la connexion
+              Back to sign in
             </button>
           </form>
         )}
 
-        <p className="auth-note">Pas d'inscription publique — contactez un admin pour obtenir un compte.</p>
+        <p className="auth-note">No public sign-up — contact an admin to get an account.</p>
       </div>
     </div>
   );

@@ -71,20 +71,20 @@ export function AgendaPage() {
   return (
     <div className="page">
       <div className="section-header">
-        <h1>Agenda du voyage</h1>
+        <h1>Trip agenda</h1>
         <div className="view-toggle">
           <button className={view === 'list' ? 'active' : ''} onClick={() => setView('list')}>
-            Liste
+            List
           </button>
           <button className={view === 'calendar' ? 'active' : ''} onClick={() => setView('calendar')}>
-            Calendrier
+            Calendar
           </button>
         </div>
       </div>
 
       <div className="filters">
         <select value={stopoverId} onChange={(e) => setStopoverId(e.target.value)}>
-          <option value="">Toutes les escales</option>
+          <option value="">All stopovers</option>
           {stopovers.map((s) => (
             <option key={s.id} value={s.id}>
               {s.name}
@@ -92,7 +92,7 @@ export function AgendaPage() {
           ))}
         </select>
         <select value={type} onChange={(e) => setType(e.target.value)}>
-          <option value="">Tous les types</option>
+          <option value="">All types</option>
           {ACTIVITY_TYPES.map((t) => (
             <option key={t} value={t}>
               {t}
@@ -100,7 +100,7 @@ export function AgendaPage() {
           ))}
         </select>
         <select value={familyId} onChange={(e) => setFamilyId(e.target.value)}>
-          <option value="">Toutes les familles</option>
+          <option value="">All families</option>
           {families.map((f) => (
             <option key={f.id} value={f.id}>
               {f.name}
@@ -108,7 +108,7 @@ export function AgendaPage() {
           ))}
         </select>
         <button className="btn-primary" onClick={() => setShowForm((s) => !s)}>
-          {showForm ? 'Annuler' : '+ Ajouter une activité'}
+          {showForm ? 'Cancel' : '+ Add activity'}
         </button>
       </div>
 
@@ -116,7 +116,7 @@ export function AgendaPage() {
         <form className="form card" onSubmit={handleCreate}>
           <div className="form-grid">
             <label>
-              Titre
+              Title
               <input name="title" required />
             </label>
             <label>
@@ -130,7 +130,7 @@ export function AgendaPage() {
               </select>
             </label>
             <label>
-              Escale
+              Stopover
               <select name="stopoverId">
                 <option value="">—</option>
                 {stopovers.map((s) => (
@@ -141,15 +141,15 @@ export function AgendaPage() {
               </select>
             </label>
             <label>
-              Lieu
+              Location
               <input name="location" />
             </label>
             <label>
-              Début
+              Start
               <input type="datetime-local" name="startDateTime" required />
             </label>
             <label>
-              Fin
+              End
               <input type="datetime-local" name="endDateTime" />
             </label>
           </div>
@@ -159,12 +159,12 @@ export function AgendaPage() {
           </label>
           {formError && <div className="form-error">{formError}</div>}
           <button type="submit" className="btn-primary" disabled={createMutation.isPending}>
-            Enregistrer
+            Save
           </button>
         </form>
       )}
 
-      {isLoading && <p>Chargement…</p>}
+      {isLoading && <p>Loading…</p>}
 
       {view === 'calendar' ? (
         <CalendarView activities={activities} initialMonth={new Date(2026, 11, 1)} />
@@ -172,7 +172,7 @@ export function AgendaPage() {
         <div className="agenda-list">
           {[...grouped.entries()].map(([day, dayActivities]) => (
             <div key={day} className="agenda-day">
-              <h3>{new Date(day).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}</h3>
+              <h3>{new Date(day).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })}</h3>
               <div className="agenda-day-items">
                 {dayActivities
                   .slice()
@@ -183,7 +183,7 @@ export function AgendaPage() {
               </div>
             </div>
           ))}
-          {!isLoading && activities.length === 0 && <p className="muted">Aucune activité pour ces filtres.</p>}
+          {!isLoading && activities.length === 0 && <p className="muted">No activities match these filters.</p>}
         </div>
       )}
     </div>

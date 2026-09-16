@@ -3,11 +3,11 @@ import { useAuth } from '../context/AuthContext';
 import { Tag } from './Tag';
 
 const links = [
-  { to: '/', label: 'Accueil', end: true },
+  { to: '/', label: 'Home', end: true },
   { to: '/agenda', label: 'Agenda' },
-  { to: '/stopovers', label: 'Escales' },
-  { to: '/flights', label: 'Vols & transports' },
-  { to: '/links', label: 'Liens & hôtels' },
+  { to: '/stopovers', label: 'Stopovers' },
+  { to: '/flights', label: 'Flights & transport' },
+  { to: '/links', label: 'Links & hotels' },
   { to: '/forum', label: 'Forum' },
 ];
 
@@ -38,7 +38,7 @@ export function NavBar() {
           {user.firstName} {user.lastName}
         </NavLink>
         <button className="btn-link" onClick={logout}>
-          Déconnexion
+          Sign out
         </button>
       </div>
     </header>

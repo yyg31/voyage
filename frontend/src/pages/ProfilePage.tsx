@@ -30,7 +30,7 @@ export function ProfilePage() {
 
   return (
     <div className="page">
-      <h1>Mon profil</h1>
+      <h1>My profile</h1>
       <div className="card">
         <p>
           <strong>
@@ -40,24 +40,24 @@ export function ProfilePage() {
         <p className="muted">{user.email}</p>
         <div className="tag-row">
           <Tag label={user.family?.name ?? ''} color={user.family?.colorHex} />
-          <Tag label={user.role === 'ADMIN' ? 'Admin' : 'Membre'} outline />
+          <Tag label={user.role === 'ADMIN' ? 'Admin' : 'Member'} outline />
         </div>
       </div>
 
-      <h2>Changer de mot de passe</h2>
+      <h2>Change password</h2>
       <form className="form card" onSubmit={handleSubmit}>
         <label>
-          Mot de passe actuel
+          Current password
           <PasswordField value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} required />
         </label>
         <label>
-          Nouveau mot de passe
+          New password
           <PasswordField minLength={8} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required />
         </label>
         {error && <div className="form-error">{error}</div>}
-        {success && <div className="form-info">Mot de passe mis à jour.</div>}
+        {success && <div className="form-info">Password updated.</div>}
         <button type="submit" className="btn-primary">
-          Mettre à jour
+          Update
         </button>
       </form>
     </div>

@@ -47,13 +47,13 @@ export function ForumPage() {
       <div className="section-header">
         <h1>Forum</h1>
         <button className="btn-primary" onClick={() => setShowForm((s) => !s)}>
-          {showForm ? 'Annuler' : '+ Nouveau sujet'}
+          {showForm ? 'Cancel' : '+ New thread'}
         </button>
       </div>
 
       <div className="filters">
         <button className={categoryId === '' ? 'active-chip' : 'chip'} onClick={() => setCategoryId('')}>
-          Toutes catégories
+          All categories
         </button>
         {categories.map((c) => (
           <button
@@ -69,10 +69,10 @@ export function ForumPage() {
       {showForm && (
         <form className="form card" onSubmit={handleCreate}>
           <label>
-            Catégorie
+            Category
             <select name="categoryId" required defaultValue={categoryId}>
               <option value="" disabled>
-                Choisir…
+                Choose…
               </option>
               {categories.map((c) => (
                 <option key={c.id} value={c.id}>
@@ -82,7 +82,7 @@ export function ForumPage() {
             </select>
           </label>
           <label>
-            Titre du sujet
+            Thread title
             <input name="title" required />
           </label>
           <label>
@@ -91,12 +91,12 @@ export function ForumPage() {
           </label>
           {formError && <div className="form-error">{formError}</div>}
           <button type="submit" className="btn-primary" disabled={createMutation.isPending}>
-            Publier
+            Post
           </button>
         </form>
       )}
 
-      {isLoading && <p>Chargement…</p>}
+      {isLoading && <p>Loading…</p>}
 
       <div className="thread-list">
         {threads.map((t) => (
@@ -106,12 +106,12 @@ export function ForumPage() {
               <Tag label={t.category.name} outline />
             </div>
             <div className="muted">
-              Par {t.author.firstName} {t.author.lastName} · {formatDateTime(t.createdAt)} ·{' '}
+              By {t.author.firstName} {t.author.lastName} · {formatDateTime(t.createdAt)} ·{' '}
               {t._count?.messages ?? 0} message(s)
             </div>
           </Link>
         ))}
-        {!isLoading && threads.length === 0 && <p className="muted">Aucun sujet pour le moment.</p>}
+        {!isLoading && threads.length === 0 && <p className="muted">No threads yet.</p>}
       </div>
     </div>
   );

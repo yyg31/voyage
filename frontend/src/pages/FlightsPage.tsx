@@ -57,9 +57,9 @@ export function FlightsPage() {
   return (
     <div className="page">
       <div className="section-header">
-        <h1>Vols &amp; transports</h1>
+        <h1>Flights &amp; transport</h1>
         <button className="btn-primary" onClick={() => setShowForm((s) => !s)}>
-          {showForm ? 'Annuler' : '+ Ajouter un vol'}
+          {showForm ? 'Cancel' : '+ Add flight'}
         </button>
       </div>
 
@@ -67,32 +67,32 @@ export function FlightsPage() {
         <form className="form card" onSubmit={handleCreate}>
           <div className="form-grid">
             <label>
-              Compagnie
+              Airline
               <input name="airline" required />
             </label>
             <label>
-              N° de vol
+              Flight number
               <input name="flightNumber" required />
             </label>
             <label>
-              Ville de départ
+              Departure city
               <input name="departureCity" required />
             </label>
             <label>
-              Ville d'arrivée
+              Arrival city
               <input name="arrivalCity" required />
             </label>
             <label>
-              Départ
+              Departure
               <input type="datetime-local" name="departureDateTime" required />
             </label>
             <label>
-              Arrivée
+              Arrival
               <input type="datetime-local" name="arrivalDateTime" required />
             </label>
           </div>
           <label>
-            Membres concernés
+            Travelers
             <select name="participantIds" multiple size={Math.min(users.length, 6)}>
               {users.map((u) => (
                 <option key={u.id} value={u.id}>
@@ -103,12 +103,12 @@ export function FlightsPage() {
           </label>
           {formError && <div className="form-error">{formError}</div>}
           <button type="submit" className="btn-primary" disabled={createMutation.isPending}>
-            Enregistrer
+            Save
           </button>
         </form>
       )}
 
-      {isLoading && <p>Chargement…</p>}
+      {isLoading && <p>Loading…</p>}
 
       <div className="flight-list">
         {flights.map((f) => (
@@ -132,10 +132,10 @@ export function FlightsPage() {
             <div className="flight-card-actions">
               {f.ticketFileUrl ? (
                 <a href={f.ticketFileUrl} target="_blank" rel="noreferrer">
-                  📄 Voir le billet
+                  📄 View ticket
                 </a>
               ) : (
-                <span className="muted">Aucun billet uploadé</span>
+                <span className="muted">No ticket uploaded</span>
               )}
               <input
                 type="file"
@@ -151,15 +151,15 @@ export function FlightsPage() {
                 }}
               />
               <button className="btn-link" onClick={() => fileInputs.current[f.id]?.click()}>
-                Uploader le billet
+                Upload ticket
               </button>
               <button className="btn-link btn-danger" onClick={() => deleteMutation.mutate(f.id)}>
-                Supprimer
+                Delete
               </button>
             </div>
           </div>
         ))}
-        {!isLoading && flights.length === 0 && <p className="muted">Aucun vol enregistré.</p>}
+        {!isLoading && flights.length === 0 && <p className="muted">No flights recorded yet.</p>}
       </div>
     </div>
   );

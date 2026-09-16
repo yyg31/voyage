@@ -20,13 +20,13 @@ export function Tag({ label, color = '#64748b', outline = false }: TagProps) {
 }
 
 const ACTIVITY_TYPE_LABELS: Record<string, string> = {
-  FLIGHT: 'Vol',
+  FLIGHT: 'Flight',
   TRANSPORT: 'Transport',
   RESTAURANT: 'Restaurant',
   EXCURSION: 'Excursion',
-  VISIT: 'Visite',
-  HOTEL: 'Hôtel',
-  OTHER: 'Autre',
+  VISIT: 'Visit',
+  HOTEL: 'Hotel',
+  OTHER: 'Other',
 };
 
 export function activityTypeLabel(type: string) {
@@ -34,12 +34,12 @@ export function activityTypeLabel(type: string) {
 }
 
 const LINK_TYPE_LABELS: Record<string, string> = {
-  HOTEL: 'Hôtel',
-  FLIGHT: 'Vol',
+  HOTEL: 'Hotel',
+  FLIGHT: 'Flight',
   RESTAURANT: 'Restaurant',
   EXCURSION: 'Excursion',
-  INFO: 'Info pratique',
-  OTHER: 'Autre',
+  INFO: 'Practical info',
+  OTHER: 'Other',
 };
 
 export function linkTypeLabel(type: string) {

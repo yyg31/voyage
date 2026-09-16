@@ -34,7 +34,7 @@ export function ActivityCard({ activity, onDelete }: { activity: Activity; onDel
         )}
         {onDelete && (
           <button className="btn-link btn-danger" onClick={() => onDelete(activity.id)}>
-            Supprimer
+            Delete
           </button>
         )}
       </div>
