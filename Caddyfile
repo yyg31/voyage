@@ -1,0 +1,49 @@
+# Caddyfile for asia26.ygouf.com
+#
+# This file lives on the HOST (not inside a container). Caddy is the
+# reverse proxy in front of the Docker Compose stack (frontend + backend),
+# which only bind to 127.0.0.1 (see docker-compose.yml).
+#
+# Install: copy/symlink this file to /etc/caddy/Caddyfile (or `import` it
+# from your existing Caddyfile), then `sudo systemctl reload caddy`.
+# Caddy automatically provisions/renews a Let's Encrypt certificate for
+# asia26.ygouf.com as long as DNS points at this host and ports 80/443
+# are reachable from the internet.
+
+asia26.ygouf.com {
+	encode gzip
+
+	# Uploaded files (flight tickets, etc.) — backend also requires a valid
+	# session token to read these, this just routes the path.
+	handle /uploads/* {
+		reverse_proxy 127.0.0.1:4000
+	}
+
+	# REST API
+	handle /api/* {
+		reverse_proxy 127.0.0.1:4000
+	}
+
+	handle /health {
+		reverse_proxy 127.0.0.1:4000
+	}
+
+	# Everything else: the React static build
+	handle {
+		reverse_proxy 127.0.0.1:3000
+	}
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+	}
+
+	log {
+		output file /var/log/caddy/asia26.ygouf.com.log
+	}
+}
+
+# Plain HTTP is redirected to HTTPS automatically by Caddy's default
+# behavior for the site block above; no separate :80 block is needed.

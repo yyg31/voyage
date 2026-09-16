@@ -1,0 +1,237 @@
+// Prisma schema for asia26.ygouf.com
+// Trip: 2 families (Back, Ygouf), 9 members, 2-week trip through Asia
+// (Phnom Penh, Ho Chi Minh, Con Dao, Singapore, Beijing)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+}
+
+enum ActivityType {
+  FLIGHT
+  TRANSPORT
+  RESTAURANT
+  EXCURSION
+  VISIT
+  HOTEL
+  OTHER
+}
+
+enum LinkType {
+  HOTEL
+  FLIGHT
+  RESTAURANT
+  EXCURSION
+  INFO
+  OTHER
+}
+
+enum LinkVisibility {
+  BOTH   // visible to both families
+  BACK
+  YGOUF
+}
+
+model Family {
+  id        String   @id @default(uuid())
+  name      String   @unique // "Back" | "Ygouf"
+  colorHex  String   @default("#2563eb")
+  createdAt DateTime @default(now())
+
+  members         User[]
+  links           Link[]
+  stopoverFamilies StopoverFamily[]
+
+  @@map("families")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  firstName    String
+  lastName     String
+  role         Role     @default(MEMBER)
+  familyId     String
+  family       Family   @relation(fields: [familyId], references: [id])
+  avatarColor  String   @default("#64748b")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  activities        ActivityParticipant[]
+  flights           FlightParticipant[]
+  linksCreated      Link[]                @relation("LinkCreatedBy")
+  forumThreads      ForumThread[]
+  forumMessages     ForumMessage[]
+  passwordResets    PasswordResetToken[]
+
+  @@map("users")
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@map("password_reset_tokens")
+}
+
+model Stopover {
+  id          String   @id @default(uuid())
+  name        String   // e.g. "Phnom Penh"
+  country     String
+  colorHex    String   @default("#16a34a")
+  startDate   DateTime
+  endDate     DateTime
+  orderIndex  Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  families    StopoverFamily[]
+  activities  Activity[]
+  links       Link[]
+
+  @@map("stopovers")
+}
+
+// Which families are present at a stopover, and for what dates
+model StopoverFamily {
+  id            String   @id @default(uuid())
+  stopoverId    String
+  stopover      Stopover @relation(fields: [stopoverId], references: [id], onDelete: Cascade)
+  familyId      String
+  family        Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  arrivalDate   DateTime
+  departureDate DateTime
+
+  @@unique([stopoverId, familyId])
+  @@map("stopover_families")
+}
+
+model Activity {
+  id            String       @id @default(uuid())
+  stopoverId    String?
+  stopover      Stopover?    @relation(fields: [stopoverId], references: [id], onDelete: SetNull)
+  title         String
+  description   String?
+  type          ActivityType @default(OTHER)
+  location      String?
+  startDateTime DateTime
+  endDateTime   DateTime?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  participants  ActivityParticipant[]
+  flight        Flight?
+
+  @@map("activities")
+}
+
+// empty participants list = visible/relevant to everyone
+model ActivityParticipant {
+  id         String   @id @default(uuid())
+  activityId String
+  activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([activityId, userId])
+  @@map("activity_participants")
+}
+
+model Flight {
+  id                String   @id @default(uuid())
+  airline           String
+  flightNumber      String
+  departureCity     String
+  arrivalCity       String
+  departureDateTime DateTime
+  arrivalDateTime   DateTime
+  ticketFileUrl     String?
+  createdAt         DateTime @default(now())
+
+  // A flight is mirrored into the agenda as an Activity of type FLIGHT
+  activityId String?  @unique
+  activity   Activity? @relation(fields: [activityId], references: [id], onDelete: SetNull)
+
+  participants FlightParticipant[]
+
+  @@map("flights")
+}
+
+model FlightParticipant {
+  id       String @id @default(uuid())
+  flightId String
+  flight   Flight @relation(fields: [flightId], references: [id], onDelete: Cascade)
+  userId   String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([flightId, userId])
+  @@map("flight_participants")
+}
+
+model Link {
+  id          String         @id @default(uuid())
+  title       String
+  url         String
+  type        LinkType       @default(OTHER)
+  stopoverId  String?
+  stopover    Stopover?      @relation(fields: [stopoverId], references: [id], onDelete: SetNull)
+  visibility  LinkVisibility @default(BOTH)
+  familyId    String?
+  family      Family?        @relation(fields: [familyId], references: [id], onDelete: SetNull)
+  createdById String
+  createdBy   User           @relation("LinkCreatedBy", fields: [createdById], references: [id])
+  createdAt   DateTime       @default(now())
+
+  @@map("links")
+}
+
+model ForumCategory {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  orderIndex  Int      @default(0)
+
+  threads ForumThread[]
+
+  @@map("forum_categories")
+}
+
+model ForumThread {
+  id         String        @id @default(uuid())
+  categoryId String
+  category   ForumCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  title      String
+  authorId   String
+  author     User          @relation(fields: [authorId], references: [id])
+  createdAt  DateTime      @default(now())
+
+  messages ForumMessage[]
+
+  @@map("forum_threads")
+}
+
+model ForumMessage {
+  id        String      @id @default(uuid())
+  threadId  String
+  thread    ForumThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User        @relation(fields: [authorId], references: [id])
+  content   String
+  createdAt DateTime    @default(now())
+
+  @@map("forum_messages")
+}
